@@ -16,11 +16,11 @@
 # *****************************************************************
 set -vex
 
-bazel clean --expunge
-bazel shutdown
+source open-ce-common-utils.sh
 
 # setup.py implements bazel_build which builds bazel targets from tensorflow-metadata
 ${PYTHON} setup.py install --single-version-externally-managed --record record.txt
 
-bazel clean --expunge
-bazel shutdown
+PID=$(bazel info server_pid)
+echo "PID: $PID"
+cleanup_bazel $PID
